@@ -12,21 +12,27 @@ const installTsTplReplacer = async (listFileContent) => {
   // 组件导出入口
   const indexFrom = path.resolve(__dirname,'packages/index.ts')
 
+  //组件对应的样式文件创建
+  const styleFile = path.resolve(__dirname,`packages/theme-chalk/${listFileContent.compClassName}.scss`)
+
   // 设置输入输出路径
   const installFileFrom = path.resolve(__dirname,'scripts/genNewComp/.template/install.ts.tpl')
   const docsDemoFileFrom = path.resolve(__dirname,'scripts/genNewComp/.template/demo.vue.tpl')
   const docsReadmeFileFrom = path.resolve(__dirname,'scripts/genNewComp/.template/readme.md.tpl')
   const indexFileFrom = path.resolve(__dirname,'scripts/genNewComp/.template/index.vue.tpl')
   // 组件文件夹
-  const installFolder = path.resolve(__dirname,`packages/${listFileContent.compName}`)
-  const installFileTo = path.resolve(__dirname,`packages/${listFileContent.compName}/index.ts`)
+  const installFolder = path.resolve(__dirname,`packages/components/${listFileContent.compName}`)
+  const installFileTo = path.resolve(__dirname,`packages/components/${listFileContent.compName}/index.ts`)
   // docs文件夹
-  const docsFolder = path.resolve(__dirname,`packages/${listFileContent.compName}/docs`)
-  const docsFileToDemo = path.resolve(__dirname,`packages/${listFileContent.compName}/docs/demo.vue`)
-  const docsFileToReadme = path.resolve(__dirname,`packages/${listFileContent.compName}/docs/readme.md`)
+  const docsFolder = path.resolve(__dirname,`packages/components/${listFileContent.compName}/docs`)
+  const docsFileToDemo = path.resolve(__dirname,`packages/components/${listFileContent.compName}/docs/demo.vue`)
+  const docsFileToReadme = path.resolve(__dirname,`packages/components/${listFileContent.compName}/docs/readme.md`)
   // src文件夹
-  const srcFolder = path.resolve(__dirname,`packages/${listFileContent.compName}/src`)
-  const srcFileTo = path.resolve(__dirname,`packages/${listFileContent.compName}/src/index.vue`)
+  const srcFolder = path.resolve(__dirname,`packages/components/${listFileContent.compName}/src`)
+  const srcFileTo = path.resolve(__dirname,`packages/components/${listFileContent.compName}/src/index.vue`)
+  // style文件夹
+  const styleFolder = path.resolve(__dirname,`packages/components/${listFileContent.compName}/style`)
+  const styleFileTo = path.resolve(__dirname,`packages/components/${listFileContent.compName}/style/index.ts`)
 
   // 是否已存在该组件
   let isExistComp = false
@@ -57,6 +63,13 @@ const installTsTplReplacer = async (listFileContent) => {
     }
   });
 
+  // 创建style文件夹
+  fs.access(path.resolve(__dirname,styleFolder), fs.constants.F_OK, (err) => {
+    if(err) {
+      fs.mkdirSync(styleFolder, {recursive: true})
+    }
+  });
+
   // 写入到组件列表JSON配置文件
   let ComponentLists = fs.readFileSync(listFrom, 'utf-8')
   ComponentLists = JSON.parse(ComponentLists)
@@ -73,11 +86,31 @@ const installTsTplReplacer = async (listFileContent) => {
 
   // 单个导出写入/packages/index.ts文件中
   const singleExport = `
-    export * from './${listFileContent.compName}'
+    export * from './components/${listFileContent.compName}'
   `
   outputFile(indexFrom, singleExport,{flag: 'a+'}, err => {
     if (err) console.log(err)
     else console.log(`单个导出配置写入成功`);
+  })
+
+  // 组件样式引入文件引入到每个对应的style
+  const styleImport = `
+  import '/packages/theme-chalk/${listFileContent.compClassName}.scss'
+  `
+  outputFile(styleFileTo, styleImport,{flag: 'a+'}, err => {
+    if (err) console.log(err)
+    else console.log(`组件样式引入写入成功`);
+  })
+
+  // 组件样式文件创建
+  const styleCreate = `
+    @use 'component-base' as *;
+    @use 'mixins/mixins' as *;
+    @use 'sass:map';
+  `
+  outputFile(styleFile, styleCreate,{flag: 'a+'}, err => {
+    if (err) console.log(err)
+    else console.log(`组件样式创建成功`);
   })
 
   // 读取模板内容

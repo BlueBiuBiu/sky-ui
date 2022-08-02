@@ -39,6 +39,7 @@ let currentPreview = reactive({
 
 // 侧边栏链接点击
 const linkClick = (link) => {
+  isShowSource.value = false
   currentPreview.data = {
     compName: link.compName,
     demoName: 'demo'
@@ -52,7 +53,7 @@ const viewSource = () => {
 }
 </script>
 
-<style lang="less">
+<style lang="scss">
 html,
 body {
   margin: 0;
@@ -72,12 +73,16 @@ body {
   }
   main {
     width: 100%;
+    height: 100vh;
     flex: 1;
     padding: 15px;
+    margin-bottom: 15px;
+    overflow-y: scroll;
   }
   .example {
     width: 100%;
     border: 1px solid #ebedf0;
+    margin-bottom: 100px;
 
     .markdown-body {
       margin: 20px;

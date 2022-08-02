@@ -1,16 +1,20 @@
 import { createRouter, createWebHashHistory, RouterOptions } from 'vue-router'
+import compLists from "/packages/list.json"
 
-const routes = [{
-  title: '按钮',
-  name: 'Button',
-  path: '/components/Button',
-  component: () => import(`/packages/Button/docs/README.md`),
-},{
-  title: '测试',
-  name: 'Foo',
-  path: '/components/Foo',
-  component: () => import(`/packages/Foo/docs/README.md`),
-}];
+const routes: any[] = [
+  {
+    path: '/',
+    redirect: '/components/Button'
+  },
+];
+compLists.forEach((comp: any) => {
+  routes.push({
+    title: comp.compZhName,
+    name: comp.compName,
+    path: `/components/${comp.compName}`,
+    component: () => import(`/packages/components/${comp.compName}/docs/README.md`),
+  })
+})
 
 const routerConfig = {
   history: createWebHashHistory(),
@@ -23,5 +27,4 @@ const routerConfig = {
 };
 
 const router = createRouter(routerConfig as RouterOptions);
-
 export default router;

@@ -1,0 +1,63 @@
+@use 'component-base' as *;
+@use 'mixins/mixins' as *;
+@use 'sass:map';
+
+// 基础按钮
+@include b(button) {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  line-height: 1;
+  white-space: nowrap;
+  cursor: pointer;
+  color: $color-black;
+  text-align: center;
+  box-sizing: border-box;
+  outline: none;
+  transition: 0.1s;
+  font-weight: map.get($border-color, 'normal');
+  user-select: none;
+  vertical-align: middle;
+  background-color: $color-white;
+  border: 1px solid map.get($border-color, '');
+  border-color: map.get($border-color, '');
+  padding: 8px 15px;
+  border-radius: 5px;
+  &:hover {
+    border-color: map.get($mask, 'primary');
+    color: $color-primary;
+    background: map.get($mask, '')
+  }
+};
+
+// 根据type来定制按钮类型
+@include m(button, 'primary') {
+  color: $color-white;
+  background-color: $color-primary;
+  border: none;
+  &:hover {
+    color: $color-white;
+    background: map.get($mask, 'primary')
+  }
+};
+
+@include m(button, 'success') {
+  color: $color-white;
+  background-color: $color-success;
+  border: none;
+  &:hover {
+    color: $color-white;
+    background: map.get($mask, 'success')
+  }
+};
+
+// 根据size来定制按钮大小
+@include m(button, 'large') {
+  padding: 12px 19px;
+  font-size: map.get($font-size, 'large');
+};
+
+@include m(button, 'small') {
+  padding: 5px 11px;
+  font-size: map.get($font-size, 'small');
+};

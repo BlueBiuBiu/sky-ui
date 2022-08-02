@@ -28,7 +28,7 @@ export default {
   },
   async mounted() {
     this.sourceCode = (
-      await import(/* @vite-ignore */ `../../packages/${this.compName}/docs/${this.demoName}.vue?raw`)
+      await import(/* @vite-ignore */ `../../packages/components/${this.compName}/docs/${this.demoName}.vue?raw`)
     ).default;
     await this.$nextTick(); // 确保在源码都渲染好了以后再执行高亮
     Prism.highlightAll();

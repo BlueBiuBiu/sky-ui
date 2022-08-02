@@ -1,0 +1,121 @@
+@forward "base";
+@use 'sass:math';
+@use 'sass:map';
+
+// 颜色
+$colors: () !default;
+$colors: map.deep-merge(
+  (
+    'white': #ffffff,
+    'black': #000000,
+    'primary': (
+      'base': #409eff,
+    ),
+    'success': (
+      'base': #67c23a,
+    ),
+    'warning': (
+      'base': #e6a23c,
+    ),
+    'danger': (
+      'base': #f56c6c,
+    ),
+    'error': (
+      'base': #f56c6c,
+    ),
+    'info': (
+      'base': #909399,
+    ),
+  ),
+  $colors
+);
+
+$color-white: map.get($colors, 'white') !default;
+$color-black: map.get($colors, 'black') !default;
+$color-primary: map.get($colors, 'primary', 'base') !default;
+$color-success: map.get($colors, 'success', 'base') !default;
+$color-warning: map.get($colors, 'warning', 'base') !default;
+$color-danger: map.get($colors, 'danger', 'base') !default;
+$color-error: map.get($colors, 'error', 'base') !default;
+$color-info: map.get($colors, 'info', 'base') !default;
+
+// 字体
+$font-family: () !default;
+$font-family: map.merge(
+  (
+    '': "'Helvetica Neue', Helvetica, 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', '微软雅黑', Arial, sans-serif"
+  ),
+  $font-family
+);
+
+$font-size: () !default;
+$font-size: map.merge(
+  (
+    'extra-large': 20px,
+    'large': 18px,
+    'medium': 16px,
+    'base': 14px,
+    'small': 13px,
+    'extra-small': 12px,
+  ),
+  $font-size
+);
+
+$font-weight: () !default;
+$font-weight: map.merge(
+  (
+    'normal': 500,
+    'bold': 700,
+  ),
+  $font-weight
+);
+
+// 边框
+$border-width: 1px !default;
+$border-style: solid !default;
+
+$border-radius: () !default;
+$border-radius: map.merge(
+  (
+    'base': 4px,
+    'small': 2px,
+    'round': 20px,
+    'circle': 100%,
+  ),
+  $border-radius
+);
+
+$border-color: () !default;
+$border-color: map.merge(
+  (
+    '': #dcdfe6,
+    'light': #e4e7ed,
+    'lighter': #ebeef5,
+    'extra-light': #f2f6fc,
+    'dark': #d4d7de,
+    'darker': #cdd0d6,
+  ),
+  $border-color
+);
+
+// 背景
+$bg-color: () !default;
+$bg-color: map.merge(
+  (
+    '': #ffffff,
+    'page': #f2f3f5,
+    'overlay': #ffffff,
+  ),
+  $bg-color
+);
+
+// 遮盖层(比如hover时)
+$mask: () !default;
+$mask: map.merge(
+  (
+    '': #c6e2ff,
+    'primary': #79bbff,
+    'success': #95d475,
+  ),
+  $mask
+);

@@ -1,0 +1,18 @@
+$namespace: 'sky' !default;
+
+// BEM
+@mixin b($block) {
+  $B: $namespace + '-' + $block !global;
+
+  .#{$B} {
+    @content;
+  }
+}
+
+@mixin m($block, $modifier) {
+  $M: $namespace + '-' + $block + '--' + $modifier !global;
+
+  .#{$M} {
+    @content;
+  }
+}
